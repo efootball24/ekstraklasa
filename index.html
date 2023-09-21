@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Character set for the document -->
+    <meta charset="UTF-8">
+    <!-- Ensures compatibility with Internet Explorer -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Makes the web page responsive on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the web page -->
+    <title>Ekstraklasa eFootballu 3 vs 3</title>
+    
+    <!-- Custom styles for the web page -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="page-container">
+        <div id="content-wrap">
+    <div class="header">
+        <div class="logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/EFootball_logo.svg" alt="eFootball Logo" id="logo">
+            <span class="header-text">Ekstraklasa eFootballu 3 vs 3</span>
+        </div>
+        <div class="button-container">
+            <button class="table-button active" onclick="showTable('dataContainer')">Tabela</button>
+            <button class="table-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
+            <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
+        </div>
+    </div>
+    
+
+    <!-- Placeholder for titles -->
+    <div class="title" id="title1" style="display: block;"><h2>Tabela</h2></div>
+    <div class="title" id="title2" style="display: none;"><h2>Statystyki indywidualne</h2></div>
+    <div class="title" id="title3" style="display: none;"><h2>Terminarz</h2></div>
+    
+
+    <!-- Main container for the table -->
+    <div class="limiter">
+        <div class="container-table100">
+            
+                <div class="wrap-table100">
+                    <div id="dataContainer"></div>
+                    <div id="statsContainer"></div>
+                    <div id="eventsContainer"></div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+
+    <!-- External JavaScript file to handle data fetching and display -->
+    <script src="script.js"></script>
+</div>
+<footer id="footer">
+    
+        <div class="footer-content">
+            <p>© 2023 Adam -- eFootballista.pl -- All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+
+</body>
+
+</html>
