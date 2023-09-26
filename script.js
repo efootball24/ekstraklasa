@@ -408,7 +408,10 @@ function parseEventDate(rawData) {
 }
 
 function updateMarqueeWithLatestNews() {
-    console.log("Fetching latest news...");
+    console.log("Loading latest news...");
+
+    const marqueeContentElement = document.querySelector(".marquee-content");
+    marqueeContentElement.innerHTML = "Loading latest news..."; 
     const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=588758860&single=true&output=csv";
 
     fetch(url)
