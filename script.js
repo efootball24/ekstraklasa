@@ -489,3 +489,17 @@ function startCountdown(eventDate, newsLink, countdownElementId) {
 
     countdownIntervals.set(countdownElementId, interval);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const marqueeContent = document.querySelector('.marquee-content');
+    const viewportWidth = window.innerWidth;
+    const contentWidth = marqueeContent.offsetWidth;
+
+    // Calculate the percentage of the animation duration the content is off-screen
+    const offScreenPercentage = (contentWidth / (viewportWidth + contentWidth)) * 100;
+
+    // Adjust the animation duration and starting position
+    const adjustedDuration = (50 * (100 / (100 - offScreenPercentage))).toFixed(2);
+    marqueeContent.style.animationDuration = `${adjustedDuration}s`;
+    marqueeContent.style.transform = `translateX(${offScreenPercentage}%)`;
+});
