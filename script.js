@@ -8,6 +8,7 @@ window.onload = function() {
     fetchData('stats', 'statsContainer', true);
     fetchData('dates', 'eventsContainer', false, true);
     showTable('dataContainer');
+    updateMarqueeWithLatestNews();
 };
 
 function fetchData(endpointType, containerId, isStats = false, isEvents = false) {
@@ -29,7 +30,6 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false)
             statsData = parsedData;
             displayData(statsData.slice(0, 9), containerId);
         } else if (isEvents) {
-            console.log("Event data:", parsedData);
             filterAndDisplayEvents(parsedData, containerId);
         } else {
             const sortedData = sortByColumn(parsedData, 2, true);
@@ -44,8 +44,28 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false)
 
 function parseCSV(csvString) {
     const rows = csvString.trim().split('\n');
-    return rows.map(row => row.split(',').map(cell => cell.trim().replace(/^"(.*)"$/, '$1')));
+    return rows.map(row => {
+        let inQuotes = false;
+        let cellBuffer = [];
+        let cells = [];
+        for (let char of row) {
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            }
+            if (char === ',' && !inQuotes) {
+                cells.push(cellBuffer.join('').trim().replace(/^"(.*)"$/, '$1'));
+                cellBuffer = [];
+            } else {
+                cellBuffer.push(char);
+            }
+        }
+        if (cellBuffer.length) {
+            cells.push(cellBuffer.join('').trim().replace(/^"(.*)"$/, '$1'));
+        }
+        return cells;
+    });
 }
+
 
 function areDatesEqual(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() && 
@@ -159,7 +179,7 @@ function displayData(rows, containerId) {
             if (currentSortColumn === index) {
                 th.classList.add(sortAscending ? 'sorted-ascending' : 'sorted-descending');
                 th.innerHTML = `${header} ${sortAscending ? '<i class="fa fa-arrow-up" style="color:black;"></i>' : '<i class="fa fa-arrow-down" style="color:black;"></i>'}`;
-                th.style.color = sortAscending ? "green" : "red";
+                th.style.color = sortAscending ? "red" : "green";
             }
         }
         headerRow.appendChild(th);
@@ -367,3 +387,101 @@ function fetchAndDisplayCounters() {
 
 // Call the function to fetch and display the counters
 fetchAndDisplayCounters();
+
+let countdownInterval;
+
+function parseEventDate(rawData) {
+    console.log("Raw Data in parseEventDate:", rawData);
+
+    const parsedDay = parseInt(rawData[0], 10);
+    const parsedMonth = parseInt(rawData[1], 10) - 1; // JavaScript months are 0-indexed
+    const parsedYear = parseInt(rawData[2], 10);
+
+    if (!rawData[3]) {
+        console.error("Time value is missing or undefined:", rawData[3]);
+        return null;
+    }
+
+    const [hour, minute] = rawData[3].split(':').map(num => parseInt(num, 10));
+
+    return new Date(parsedYear, parsedMonth, parsedDay, hour, minute);
+}
+
+function updateMarqueeWithLatestNews() {
+    console.log("Fetching latest news...");
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=588758860&single=true&output=csv";
+
+    fetch(url)
+    .then(response => response.text())
+    .then(data => {
+        const parsedData = parseCSV(data);
+        
+        // Skip the headers by slicing the array from the second element
+        const newsItems = parsedData.slice(1);
+
+        // Assuming you want the last 6 news items and the latest news should be displayed first
+        const recentNews = newsItems.slice(-6).reverse();
+
+        let marqueeContent = "";
+
+        recentNews.forEach((news, index) => {
+            const newsText = news[0];
+            const newsLink = news[1];
+            const dayNumber = parseInt(news[2], 10); // Day of the month
+            const month = parseInt(news[3], 10);     // Month
+            const year = parseInt(news[4], 10);      // Year
+            const time = news[5];                    // Time
+
+            const eventDate = parseEventDate(news.slice(2, 6));
+
+            const countdownElementId = `countdown-${index}`;
+            startCountdown(eventDate, newsLink, countdownElementId);
+
+            if (newsLink && newsLink.trim() !== "") {
+                marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
+            } else {
+                marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
+            }
+        });
+
+        const marqueeContentElement = document.querySelector(".marquee-content");
+        marqueeContentElement.innerHTML = marqueeContent;
+    })
+    .catch(error => {
+        console.error(`There was an error fetching the latest news from Google Sheets:`, error);
+    });
+}
+
+
+
+
+// Map to store intervals for each news item
+const countdownIntervals = new Map();
+
+function startCountdown(eventDate, newsLink, countdownElementId) {
+    if (countdownIntervals.has(countdownElementId)) {
+        clearInterval(countdownIntervals.get(countdownElementId));
+    }
+
+    const interval = setInterval(() => {
+        const now = new Date();
+        const timeDifference = eventDate - now;
+
+        if (timeDifference <= 0 && timeDifference > -4*60*60*1000) { // 4 hours in milliseconds
+            clearInterval(interval);
+            document.getElementById(countdownElementId).innerHTML = `<a href="${newsLink}" target="_blank">JUŻ TRWA! Kliknij aby oglądać!</a>`;
+        } else if (timeDifference <= -4*60*60*1000) {
+            clearInterval(interval);
+            document.getElementById(countdownElementId).textContent = "Mecz zakończony.";
+        } else {
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById(countdownElementId).textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+    }, 1000);
+
+    countdownIntervals.set(countdownElementId, interval);
+}
