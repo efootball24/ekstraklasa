@@ -236,15 +236,15 @@ tr:hover {
 
 .marquee-content {
     display: inline-block;
-    animation: marquee 100s linear infinite;
+    animation: marquee 40s linear infinite;
 }
 
 @keyframes marquee {
     0% {
-        transform: translateX(100%);
+        transform: translateX(120%);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-120%);
     }
 }
 
