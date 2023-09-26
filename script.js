@@ -314,3 +314,56 @@ function mergeColumns(rows) {
 
     return [adjustedHeaders, ...dataRows]; // Combine headers and data rows
 }
+
+///////////////////////////////////////////////////////////////
+
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfKfFOYrb6Sic2oGFx3dy6bsnJ8Lgu2JLBvmvqmxAn4QleT_Q/formResponse';
+
+function sendDataToGoogleForm(entryId) {
+    const formData = new FormData();
+    formData.append(entryId, 1); // Send integer value of 1
+
+    fetch(FORM_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Important to avoid CORS issues
+    });
+}
+
+// Send data when the page loads
+sendDataToGoogleForm('entry.23596355'); // Assuming 'entry.23596355' is for page loads
+
+// Attach the function to capture any click on the page
+document.addEventListener('click', () => {
+    sendDataToGoogleForm('entry.2128479794'); // Assuming 'entry.2128479794' is for clicks
+});
+
+
+// URL of the published CSV
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnqY6Lnezz9Pc7werBeEfYn5s0Yjcl_Qrl0lTuqs7ulSdCmbMxNiE7vtLLYkYl9MTSyF0rolZ-8-_G/pub?gid=1138249290&single=true&output=csv';
+
+// Function to fetch and display the counters
+function fetchAndDisplayCounters() {
+    fetch(CSV_URL)
+        .then(response => response.text())
+        .then(data => {
+            // Split the CSV by lines and then by commas to get the values
+            const lines = data.trim().split('\n');
+            const lastLine = lines[lines.length - 1];
+            const values = lastLine.split(',');
+
+            // Assuming the first value is "Page Loads" and the second value is "Button Clicks"
+            const pageLoads = values[0];
+            const buttonClicks = values[1];
+
+            // Display the values in the footer
+            document.getElementById('pageLoadsCounter').textContent = pageLoads;
+            document.getElementById('buttonClicksCounter').textContent = buttonClicks;
+        })
+        .catch(error => {
+            console.error('Error fetching the CSV data:', error);
+        });
+}
+
+// Call the function to fetch and display the counters
+fetchAndDisplayCounters();
