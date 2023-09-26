@@ -236,7 +236,7 @@ tr:hover {
 
 .marquee-content {
     display: inline-block;
-    animation: marquee 50s linear infinite;
+    animation: marquee 60s linear infinite;
 }
 
 @keyframes marquee {
