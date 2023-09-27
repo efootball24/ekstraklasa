@@ -468,7 +468,7 @@ function startCountdown(eventDate, newsLink, countdownElementId) {
         if (timeDifference <= 0 && timeDifference > -2*60*60*1000) { // 2 hours in milliseconds
             clearInterval(interval);
             document.getElementById(countdownElementId).innerHTML = `<a href="${newsLink}" target="_blank">JUŻ TRWA! Kliknij aby oglądać!</a>`;
-        } else if (timeDifference <= -4*60*60*1000) {
+        } else if (timeDifference <= -2*60*60*1000) {
             clearInterval(interval);
             document.getElementById(countdownElementId).textContent = "Mecz zakończony.";
         } else {
