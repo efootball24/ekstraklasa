@@ -430,32 +430,26 @@ function updateMarqueeWithLatestNews() {
         recentNews.forEach((news, index) => {
             const newsText = news[0];
             const newsLink = news[1];
-            const dayNumber = parseInt(news[2], 10); // Day of the month
-            const month = parseInt(news[3], 10);     // Month
-            const year = parseInt(news[4], 10);      // Year
-            const time = news[5];                    // Time
+            const time = news[5];
 
-            const eventDate = parseEventDate(news.slice(2, 6));
-
-            const countdownElementId = `countdown-${index}`;
-            startCountdown(eventDate, newsLink, countdownElementId);
-
-            if (newsLink && newsLink.trim() !== "") {
+            if (newsLink && newsLink.trim() !== "" && time && time.trim() !== "") {
+                const eventDate = parseEventDate(news.slice(2, 6));
+                const countdownElementId = `countdown-${index}`;
+                startCountdown(eventDate, newsLink, countdownElementId);
                 marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
+            } else if (newsLink && newsLink.trim() !== "") {
+                marqueeContent += `| &nbsp;&nbsp;&nbsp; <a href="${newsLink}" target="_blank">${newsText}</a> &nbsp;&nbsp;&nbsp; `;
             } else {
                 marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
-                console.log("String");
             }
         });
 
-        const marqueeContentElement = document.querySelector(".marquee-content");
         marqueeContentElement.innerHTML = marqueeContent;
     })
     .catch(error => {
         console.error(`There was an error fetching the latest news from Google Sheets:`, error);
     });
 }
-
 
 
 
@@ -471,7 +465,7 @@ function startCountdown(eventDate, newsLink, countdownElementId) {
         const now = new Date();
         const timeDifference = eventDate - now;
 
-        if (timeDifference <= 0 && timeDifference > -4*60*60*1000) { // 4 hours in milliseconds
+        if (timeDifference <= 0 && timeDifference > -2*60*60*1000) { // 2 hours in milliseconds
             clearInterval(interval);
             document.getElementById(countdownElementId).innerHTML = `<a href="${newsLink}" target="_blank">JUŻ TRWA! Kliknij aby oglądać!</a>`;
         } else if (timeDifference <= -4*60*60*1000) {
