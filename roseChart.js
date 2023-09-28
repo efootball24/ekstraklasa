@@ -158,7 +158,7 @@ function updateChart() {
                 .attr("fill", colors(player.B))
                 .attr("stroke", colors(player.B))
                 .attr("d", lineGenerator)
-                .style("fill-opacity", 0.5);
+                .style("fill-opacity", 0.2);
 
             playerData.forEach(dataPoint => {
                 svg.append("circle")
