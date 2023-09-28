@@ -139,20 +139,23 @@ function updateChart() {
             const playerData = keys.map(key => {
                 return { key: key, value: +player[key] / maxValues[key] * globalMaxValue };
             });
-
+        
+            // Append the first data point to the end of the playerData array
+            playerData.push(playerData[0]);
+        
             console.log("Player Data for Rendering:", playerData);
-
+        
             const lineGenerator = d3.lineRadial()
                 .angle(d => angleScale(d.key) + angleScale.bandwidth() / 2)
                 .radius(d => radiusScale(d.value));
-
+        
             svg.append("path")
                 .datum(playerData)
                 .attr("fill", colors(player.B))
                 .attr("stroke", colors(player.B))
                 .attr("d", lineGenerator)
                 .style("fill-opacity", 0.2);
-
+        
             playerData.forEach(dataPoint => {
                 svg.append("circle")
                     .attr("cx", Math.cos(angleScale(dataPoint.key) + angleScale.bandwidth() / 2 - Math.PI / 2) * radiusScale(dataPoint.value))
@@ -162,6 +165,7 @@ function updateChart() {
                     .style("fill-opacity", 0.8);
             });
         });
+        
     }
 
     // Determine font size based on window width
