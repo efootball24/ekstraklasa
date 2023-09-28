@@ -57,19 +57,9 @@ function fetchAndChangeSeason(season) {
     switch(season) {
         case 'Sezon 1':
             document.body.style.background = 'grey';
-            document.documentElement.style.background = 'grey';
             break;
         case 'Sezon 2':
-            document.body.style.background = '';
-            document.documentElement.style.background = 'linear-gradient(to bottom right, #eca2ff, #1d2783)';
-            document.documentElement.style.backgroundRepeat = 'no-repeat';
-            document.documentElement.style.height = '100%'; 
-            document.documentElement.style.fontFamily = 'Arial, sans-serif';
-            document.documentElement.style.padding= '40px 40px'; 
-            document.documentElement.style.textAlign= 'center';
-            document.documentElement.style.backgroundAttachment= 'fixed';
-            document.documentElement.style.backgroundSize= '100% 100%';
-            document.documentElement.style.margin= '0';
+            document.body.style.background = 'linear-gradient(to bottom right, #eca2ff, #1d2783)';
             break;
         // Add more cases for other seasons if needed
     }
