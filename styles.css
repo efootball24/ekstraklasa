@@ -1,5 +1,20 @@
 /* Global Styles */
-body, html {
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;  /* Place it behind the content */
+    background: url('https://upload.wikimedia.org/wikipedia/commons/e/ee/EFootball_logo.svg');
+    background-size: 10vw auto;
+    opacity: 0.2;  /* Adjust this value to your desired opacity */
+    background-repeat: no-repeat;
+    background-position: 1vh calc(100% - 120px);;
+}
+
+body {
     height: 100%;  /* Stretch to full height of the viewport */
     font-family: Arial, sans-serif;
     padding: 40px 40px;  /* Top and bottom padding of 40px, left and right padding of 20px */
@@ -7,6 +22,13 @@ body, html {
     background: linear-gradient(to bottom right, #eca2ff, #1d2783);
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: 100% 100%;
+    margin: 0;
+}
+
+html{
+    padding: 20px 10px;
+    height: 100%;  
 }
 
 
@@ -16,6 +38,7 @@ body, html {
     font-weight: normal;
     font-style: normal;
 }
+
 
 /* Container Styles */
 .limiter {
@@ -134,19 +157,41 @@ tr:hover {
 
 .logo-container {
     display: flex;
-    align-items: center; /* vertically center items */
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start; /* This will align the items to the start (left) of the container */
 }
 
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns the text to the start (left) */
+    margin-left: 40px; /* Adjust this value to increase/decrease the space between the logo and the text */
+}
+
+
 #logo {
-    height: 60px;
+    height: 160px;
     width: auto;
+    margin-right: 0px;
 }
 
 .header-text {
+    display: block;
     margin-left: 100px; /* Add space between the logo and the text */
     font-size: 40px; /* Adjust to your needs */
     color: #333; /* Adjust text color to your needs */
     font-family: 'eFootball', sans-serif;
+    margin-left: auto; /* This will push the text to the center */
+    text-align: center;
+}
+#season-text {
+    display: block; /* To make it appear on a new line */
+    font-size: 24px; /* Adjust to your desired size */
+    font-family: 'eFootball', sans-serif; /* Same font as header-text */
+    color: #333; /* Adjust text color to your needs */
+    margin-left: auto; /* This will push the text to the center */
+    text-align: center;
 }
 
 .title h2 {
@@ -195,6 +240,19 @@ tr:hover {
 .footer-links a:hover {
     color: #ddd;
 }
+#footer a {
+    color: #000000; /* Discord color */
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 0px;
+    background-color: #7e7e7e;
+    transition: background-color 0.3s ease;
+}
+
+#footer a:hover {
+    background-color: #f7f7f7;
+}
+
 #page-container {
     display: flex;
     flex-direction: column;
@@ -289,8 +347,75 @@ tr:hover {
 }
 
 
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sub-button-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10;
+            background-color: #333; /* Match the background color of the main buttons */
+            border: 1px solid #ddd; /* Add a border for clarity */
+            border-radius: 3px; /* Optional: round the corners */
+            flex-direction: column; /* This will make the sub-buttons stack vertically */
+        }
+        
+
+        .table-button.sub-button {
+            display: block; /* This ensures the sub-buttons are block-level elements */
+            width: 100%;
+            text-align: left;
+            margin: 0; /* Remove the margin */
+            padding: 10px 20px; /* Adjust padding as needed */
+            color: white; /* Set text color to white */
+        }
 
 
+        /* Show the sub-buttons when hovering over the dropdown container */
+        .dropdown:hover .sub-button-container {
+            display: block;
+        }
+
+        #statystykiMainButton, #sezonMainButton {
+            margin: 0 10px; /* Some space between the buttons */
+            padding: 10px 20px; /* Same as .table-button */
+            border: none;
+            background-color: #333; /* A dark grey background, same as .table-button */
+            color: white; /* White text, same as .table-button */
+            cursor: pointer; /* Indicates the button is clickable */
+            transition: background-color 0.3s; /* Smooth transition for hover effect, same as .table-button */
+            border-radius: 3px; /* Rounded corners */
+        }
+        
+        #statystykiMainButton:hover, #sezonMainButton:hover {
+            background-color: #555; /* Darker grey on hover, same as .table-button:hover */
+        }
+        
+        #statystykiMainButton.active, #sezonMainButton.active {
+            background-color: #1d0e0d; /* Active state color, same as .table-button.active */
+        }
+        .table-button, #statystykiMainButton, #sezonMainButton {
+            width: 150px; /* You can adjust this value to your preference */
+            border-radius: 0; /* Remove rounded corners */
+        }
+
+        .title-logo {
+            position: fixed; /* or absolute, depending on your layout */
+            bottom: 10%; /* Adjust as needed */
+            right: 10%; /* Adjust as needed */
+            width: 200px; /* Adjust the size as needed */
+            height: auto; /* Maintain the aspect ratio */
+            opacity: 0.2; /* Make it semi-transparent */
+            z-index: 999; /* Ensure it overlays other content */
+            pointer-events: none; /* Ensure it doesn't interfere with clicks */
+        }
+
+        
 
 /* Mobile styling */
 @media (max-width: 768px) {
@@ -309,22 +434,52 @@ tr:hover {
     .header-text {
         margin-left: 0;
         margin-top: 10px;
-        font-size: 24px;
+        font-size: 20px;
         text-align: center;
     }
 
-    .button-container {
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
-    }
-
-    .table-button {
-        margin: 5px 0;
-        width: 100%;
-        max-width: 300px;
+    #season-text {
+        margin-left: 0;
+        margin-top: 5px;
+        font-size: 15px;
         text-align: center;
     }
+
+        /* Dropdown Styles */
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sub-button-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10;
+            background-color: #333; /* Match the background color of the main buttons */
+            border: 1px solid #ddd; /* Add a border for clarity */
+            border-radius: 0px; /* Optional: round the corners */
+            flex-direction: column; /* Added this line to stack the sub-buttons vertically */
+        }
+
+        .table-button.sub-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin: 0; /* Remove the margin */
+            padding: 10px 20px; /* Adjust padding as needed */
+        }
+
+
+        /* Show the sub-buttons when hovering over the dropdown container */
+        .dropdown:hover .sub-button-container {
+            display: block;
+        }
+
+    
+
 
     .wrap-table100 {
         width: 100%;
@@ -376,5 +531,40 @@ tr:hover {
         height: 30px;
         margin: 3px;
         font-size: 10px;
+    }
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .table-button, .sub-button, #statystykiMainButton, #sezonMainButton {
+        margin: 5px 0;
+        width: 100%;
+        border-radius: 0; /* Remove rounded corners */
+    }
+
+    #statystykiMainButton, #sezonMainButton {
+        margin: 5px 0; /* Some vertical space between the buttons on mobile */
+        width: 100%; /* Full width on mobile */
+        max-width: 300px; /* Same as .table-button on mobile */
+        text-align: center;
+        padding: 10px 20px; /* Adjust padding to match .table-button */
+        border-radius: 0; /* Remove rounded corners */
+        background-color: #333; /* A dark grey background, same as .table-button */
+        color: white; /* White text, same as .table-button */
+        transition: background-color 0.3s; /* Smooth transition for hover effect, same as .table-button */
+    }
+
+    #statystykiMainButton:hover, #sezonMainButton:hover {
+        background-color: #555; /* Darker grey on hover, same as .table-button:hover */
+    }
+
+    #statystykiMainButton.active, #sezonMainButton.active {
+        background-color: #632922; /* Active state color, same as .table-button.active */
+    }
+
+    .dropdown {
+        width: 100%; /* Ensure the dropdown container takes full width */
     }
 }

@@ -27,20 +27,41 @@
 
     <div id="page-container">
         <div id="content-wrap">
-    <div class="header">
-        <div class="logo-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/EFootball_logo.svg" alt="eFootball Logo" id="logo">
-            <span class="header-text">Ekstraklasa eFootballu 3 vs 3</span>
-        </div>
-        <div class="button-container">
-            <button class="table-button active" onclick="showTable('dataContainer')">Tabela</button>
-            <button class="table-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
-            <button class="table-button" onclick="showTable('roseChartContainer')">Zestawienie</button>
-            <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
-        </div>
-    </div>
-    
 
+
+            <div class="header">
+                <div class="logo-container">
+                    <img src="efo.png" alt="eFootball Logo" id="logo">
+                    <div class="text-container">
+                        <span class="header-text">Ekstraklasa eFootballu 3 vs 3</span>
+                        <span id="season-text">Sezon 2</span>
+                    </div>
+                    
+                </div>
+                
+                <div class="button-container">
+                    <button class="table-button" onclick="showTable('dataContainer')">Tabela</button>
+                    <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
+                    <div class="dropdown">
+                        <button id="statystykiMainButton" onclick="toggleSubButtons('statystykiSubButtons')">Statystyki</button>
+                        <div class="sub-button-container" id="statystykiSubButtons">
+                            <button class="table-button sub-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
+                            <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Zestawienie</button>
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button id="sezonMainButton" onclick="toggleSubButtons('sezonSubButtons')">Sezon</button>
+                        <div class="sub-button-container" id="sezonSubButtons">
+                            <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 1')">Sezon 1</button>
+                            <button class="table-button sub-button active" onclick="fetchAndChangeSeason('Sezon 2')">Sezon 2</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+    
     <!-- Placeholder for titles -->
     <div class="title" id="title1" style="display: block;"><h2>Tabela</h2></div>
     <div class="title" id="title2" style="display: none;"><h2>Statystyki indywidualne</h2></div>
@@ -75,19 +96,24 @@
 
     <!-- External JavaScript file to handle data fetching and display -->
     <script src="script.js"></script>
+    <script src="menu.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="roseChart.js"></script>
 </div>
 <footer id="footer">
     <div class="footer-content">
-        <p>© 2023 Adam -- eFootballista.pl -- All rights reserved.</p>
+        <p>© 2023 Adam -- eFootballista.pl 
+            <a href="http://discord.efootballista.pl/" target="_blank" rel="noopener noreferrer">Discord</a> -- All rights reserved.
+        </p>
         <p>
             Odświeżeń: <span id="pageLoadsCounter">0</span>
             | 
             Kliknięcia: <span id="buttonClicksCounter">0</span>
         </p>
+        
     </div>
 </footer>
+
 
 </div>
 

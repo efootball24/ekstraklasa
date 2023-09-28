@@ -3,8 +3,21 @@ let playersData = [];
 const widthA = 600;
 const heightA = 400;
 
-function fetchCSVData() {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv")
+// Define a mapping of seasons to their respective URLs
+const seasonUrls2 = {
+    "Sezon 1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1938115636&single=true&output=csv",
+    "Sezon 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
+    // Add more seasons and their URLs as needed
+};
+
+window.fetchCSVData = function(season = "Sezon 2") {  // Default to "Sezon 2" if no season is provided
+    const url = seasonUrls2[season];
+    if (!url) {
+        console.error(`URL not found for season "${season}"`);
+        return;
+    }
+
+    fetch(url)
         .then(response => response.text())
         .then(data => {
             const rows = data.split("\n").slice(1);
@@ -28,6 +41,7 @@ function fetchCSVData() {
             console.error("Error fetching CSV data:", error);
         });
 }
+
 
 
 function populatePlayerSelection() {
@@ -233,7 +247,6 @@ function updateChart() {
 }
 
 
-// Fetch the CSV data when the script is loaded
-fetchCSVData();
-
 window.addEventListener('resize', updateChart);
+updateChart();
+window.fetchCSVData()

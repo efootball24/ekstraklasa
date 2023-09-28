@@ -11,35 +11,48 @@ window.onload = function() {
     updateMarqueeWithLatestNews();
 };
 
-function fetchData(endpointType, containerId, isStats = false, isEvents = false) {
+function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 2') {
     let url;
-    if (endpointType === 'data') {
-        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=117637307&single=true&output=csv";
-    } else if (endpointType === 'stats'){
-        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv";
-    } else if (endpointType === 'dates'){
-        url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1145917757&single=true&output=csv";
+
+    // Check if the season exists in the seasonUrls object
+    if (seasonUrls.hasOwnProperty(seasonName)) {
+        const seasonData = seasonUrls[seasonName];
+
+        // Determine the URL based on the endpointType
+        if (endpointType === 'data') {
+            url = seasonData.data;
+        } else if (endpointType === 'stats') {
+            url = seasonData.stats;
+        } else if (endpointType === 'dates') {
+            url = seasonData.dates;
+        }
+    } else {
+        // Handle the case when the selected season is not found
+        console.error(`Season "${seasonName}" not found.`);
+        return;
     }
 
+    // Fetch data from the dynamically determined URL
     fetch(url)
-    .then(response => response.text()) // Always parse as CSV since all endpoints now return CSV
-    .then(data => {
-        const parsedData = parseCSV(data);
+        .then(response => response.text())
+        .then(data => {
+            const parsedData = parseCSV(data);
 
-        if (isStats) {
-            statsData = parsedData;
-            displayData(statsData.slice(0, 9), containerId);
-        } else if (isEvents) {
-            filterAndDisplayEvents(parsedData, containerId);
-        } else {
-            const sortedData = sortByColumn(parsedData, 2, true);
-            displayData(sortedData, containerId);
-        }
-    })
-    .catch(error => {
-        console.error(`There was an error fetching the data for ${containerId} from Google Sheets:`, error);
-    });
+            if (isStats) {
+                statsData = parsedData;
+                displayData(statsData.slice(0, 9), containerId);
+            } else if (isEvents) {
+                filterAndDisplayEvents(parsedData, containerId);
+            } else {
+                const sortedData = sortByColumn(parsedData, 2, true);
+                displayData(sortedData, containerId);
+            }
+        })
+        .catch(error => {
+            console.error(`There was an error fetching the data for ${containerId} from Google Sheets:`, error);
+        });
 }
+
 
 
 function parseCSV(csvString) {
@@ -121,13 +134,6 @@ function filterAndDisplayEvents(rows, containerId) {
 
     displayData(matchingEvents, containerId); // Assuming you have displayData function
 }
-
-
-
-
-
-
-
 
 
 function displayData(rows, containerId) {
@@ -325,7 +331,7 @@ function mergeColumns(rows) {
     return [adjustedHeaders, ...dataRows]; // Combine headers and data rows
 }
 
-///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////// STATY
 
 const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfKfFOYrb6Sic2oGFx3dy6bsnJ8Lgu2JLBvmvqmxAn4QleT_Q/formResponse';
 
@@ -487,3 +493,40 @@ document.addEventListener("DOMContentLoaded", function() {
     marqueeContent.style.animationDuration = `${adjustedDuration}s`;
     marqueeContent.style.transform = `translateX(${offScreenPercentage}%)`;
 });
+
+////// SEZON
+
+const seasonUrls = {
+    'Sezon 1': {
+        data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=117637307&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1938115636&single=true&output=csv",
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1145917757&single=true&output=csv"
+    },
+    'Sezon 2': {
+        data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=117637307&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1145917757&single=true&output=csv"
+    },
+    // Add more seasons here as needed
+};
+
+
+function updateSeasonText(season) {
+    document.getElementById('season-text').innerText = season;
+}
+
+function updateSeason(seasonName) {
+    if (seasonUrls.hasOwnProperty(seasonName)) {
+        const seasonData = seasonUrls[seasonName];
+        
+        // Fetch and display data for each container
+        fetchData('data', 'dataContainer');
+        fetchData('stats', 'statsContainer', true);
+        fetchData('dates', 'eventsContainer', false, true);
+    } else {
+        // Handle the case when the selected season is not found
+        console.error(`Season "${seasonName}" not found.`);
+    }
+}
+
+
