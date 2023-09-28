@@ -2,13 +2,13 @@
 body, html {
     height: 100%;  /* Stretch to full height of the viewport */
     font-family: Arial, sans-serif;
-    margin: 0;  /* Reset to 0 */
-    padding: 40px;  /* Moved padding here from margin for full height */
+    padding: 40px 40px;  /* Top and bottom padding of 40px, left and right padding of 20px */
     text-align: center;
     background: linear-gradient(to bottom right, #eca2ff, #1d2783);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 
 @font-face {
     font-family: 'eFootball';
@@ -200,6 +200,7 @@ tr:hover {
     flex-direction: column;
     min-height: 90vh; /* full viewport height */
     padding-bottom: 100px;
+    width: 100%;
 }
 
 #content-wrap {
@@ -248,23 +249,54 @@ tr:hover {
     }
 }
 
+#playerSelect {
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px;
+    height: 150px;
+}
+
+#playerCheckboxContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjust 100px to your desired minimum column width */
+    gap: 5px;
+}
+
+
+
+.player-item {
+    width: 120px;
+    height: 50px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5%;
+}
+
+#roseChart {
+    max-width: 100%;
+    height: auto;
+}
+
 
 
 
 
 /* Mobile styling */
 @media (max-width: 768px) {
-
     .header {
         flex-direction: column;
         align-items: center;
-        text-align: center; /* center everything */
+        text-align: center;
     }
 
     .logo-container {
         flex-direction: column;
         align-items: center;
-        margin-bottom: 10px; /* add some spacing below the logo and text */
+        margin-bottom: 10px;
     }
 
     .header-text {
@@ -282,21 +314,20 @@ tr:hover {
 
     .table-button {
         margin: 5px 0;
-        width: 100%; /* make buttons full width */
-        max-width: 300px; /* restrict max width to be not too wide */
+        width: 100%;
+        max-width: 300px;
         text-align: center;
     }
 
     .wrap-table100 {
         width: 100%;
-        padding: 10px; /* reduce padding for less side margins */
-    
+        padding: 5px;
     }
 
     th, td {
-        font-size: 10px;     /* adjust font size to make it smaller */
-        padding: 5px 10px;   /* reduce padding for smaller cells */
-        height: 30px;        /* optional: set a specific height for cells */
+        font-size: 10px;
+        padding: 5px 10px;
+        height: 30px;
     }
 
     .wrap-table100 {
@@ -304,24 +335,38 @@ tr:hover {
     }
 
     #info-bar {
-        font-size: 14px; /* Smaller font size for mobile */
-        padding: 5px 0; /* Reduce padding */
-        bottom: 60px; /* Adjust position */
+        font-size: 14px;
+        padding: 5px 0;
+        bottom: 60px;
     }
 
     #footer {
-        padding: 10px 0; /* Reduce padding */
+        padding: 10px 0;
     }
 
     .footer-content {
-        flex-direction: column; /* Stack content vertically */
-        align-items: center; /* Center align items */
-        gap: 10px; /* Add gap between items */
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
     .footer-links {
-        flex-direction: column; /* Stack links vertically */
-        align-items: center; /* Center align links */
-        gap: 10px; /* Add gap between links */
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #playerSelect {
+        height: auto;
+    }
+
+    #playerCheckboxContainer {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
+
+    .player-item {
+        width: 90px;
+        height: 40px;
+        margin: 3px;
     }
 }

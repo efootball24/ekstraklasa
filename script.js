@@ -257,8 +257,8 @@ function sortByColumn(data, columnIndex) {
 }
 
 function showTable(containerToShow) {
-    const containers = ['dataContainer', 'statsContainer', 'eventsContainer']; // Added 'eventsContainer'
-    const titles = ['title1', 'title2', 'title3'];
+    const containers = ['dataContainer', 'statsContainer', 'eventsContainer', 'roseChartContainer'];
+    const titles = ['title1', 'title2', 'title3', 'title4'];
 
     // Handle containers
     containers.forEach(container => {
@@ -271,27 +271,16 @@ function showTable(containerToShow) {
             document.getElementById(title).style.display = "block";
         } else if (containerToShow === 'statsContainer' && title === 'title2') {
             document.getElementById(title).style.display = "block";
-        } else if (title === 'title3') {
-            document.getElementById(title).style.display = (containerToShow !== 'dataContainer' && containerToShow !== 'statsContainer') ? "block" : "none";
+        } else if (containerToShow === 'eventsContainer' && title === 'title3') {
+            document.getElementById(title).style.display = "block";
+        } else if (containerToShow === 'roseChartContainer' && title === 'title4') {
+            document.getElementById(title).style.display = "block";
         } else {
             document.getElementById(title).style.display = "none";
         }
     });
 
     const buttons = document.querySelectorAll('.table-button');
-    buttons.forEach(button => {
-        button.classList.remove('active');
-    });
-
-    if (containerToShow === 'dataContainer') {
-        document.querySelector(".button-container .table-button:nth-child(1)").classList.add('active');
-    } else if (containerToShow === 'statsContainer') {
-        document.querySelector(".button-container .table-button:nth-child(2)").classList.add('active');
-    } else {
-        document.querySelector(".button-container .table-button:nth-child(3)").classList.add('active');
-    }
-
-    
     buttons.forEach(button => {
         if (button.getAttribute('onclick') === `showTable('${containerToShow}')`) {
             button.classList.add('active');
@@ -300,6 +289,7 @@ function showTable(containerToShow) {
         }
     });
 }
+
 
 function mergeColumns(rows) {
     if (!rows || rows.length === 0) {

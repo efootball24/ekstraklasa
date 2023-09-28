@@ -35,6 +35,7 @@
         <div class="button-container">
             <button class="table-button active" onclick="showTable('dataContainer')">Tabela</button>
             <button class="table-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
+            <button class="table-button" onclick="showTable('roseChartContainer')">Zestawienie</button>
             <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
         </div>
     </div>
@@ -44,6 +45,8 @@
     <div class="title" id="title1" style="display: block;"><h2>Tabela</h2></div>
     <div class="title" id="title2" style="display: none;"><h2>Statystyki indywidualne</h2></div>
     <div class="title" id="title3" style="display: none;"><h2>Terminarz</h2></div>
+    <div class="title" id="title4" style="display: none;"><h2>Zestawienie</h2></div>
+
     
 
     <!-- Main container for the table -->
@@ -54,6 +57,15 @@
                     <div id="dataContainer"></div>
                     <div id="statsContainer"></div>
                     <div id="eventsContainer"></div>
+                    <div id="roseChartContainer" style="display: none;">
+                        <div id="roseChart"></div>
+                        <label>Wybierz Graczy(Maks 4):</label>
+                        <div id="playerCheckboxContainer"></div>
+
+                        
+                    </div>
+                    
+                    
                 </div>
             
         </div>
@@ -63,6 +75,8 @@
 
     <!-- External JavaScript file to handle data fetching and display -->
     <script src="script.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="roseChart.js"></script>
 </div>
 <footer id="footer">
     <div class="footer-content">
