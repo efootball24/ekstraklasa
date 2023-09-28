@@ -211,7 +211,7 @@ function updateChart() {
             .attr("text-anchor", "middle")
             .attr("dy", "1.5em")
             .style("font-size", fontSize)
-            .text(`(${maxValues[key]})`);
+            .text(`(Max: ${maxValues[key]})`);
     });
 
     const legend = svg.selectAll(".legend")
