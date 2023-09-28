@@ -1,7 +1,7 @@
 let playersData = [];
 
 const widthA = 600;
-const heightA = 500;
+const heightA = 400;
 
 function fetchCSVData() {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv")
@@ -38,9 +38,6 @@ function populatePlayerSelection() {
         const playerDiv = document.createElement('div');
         playerDiv.className = 'player-item';
         playerDiv.dataset.playerName = player.B;
-        playerDiv.style.backgroundColor = 'grey';
-        playerDiv.style.color = 'white';
-        playerDiv.style.fontWeight = 'normal';
         playerDiv.innerText = player.B;
 
         playerDiv.addEventListener('click', togglePlayerSelection);
@@ -54,16 +51,10 @@ function togglePlayerSelection(event) {
 
     if (selectedPlayers.length < 4 || playerDiv.classList.contains('selected')) {
         playerDiv.classList.toggle('selected');
-        if (playerDiv.classList.contains('selected')) {
-            playerDiv.style.backgroundColor = '#e74c3c';
-            playerDiv.style.fontWeight = 'bold';
-        } else {
-            playerDiv.style.backgroundColor = 'grey';
-            playerDiv.style.fontWeight = 'normal';
-        }
         updateChart();
     }
 }
+
 
 function updateChart() {
     const selectedPlayers = [...document.querySelectorAll('.player-item.selected')].map(div => div.dataset.playerName);
@@ -81,6 +72,8 @@ function updateChart() {
     const globalMaxValue = d3.max(Object.values(maxValues));
 
     const margin = { top: 50, right: 80, bottom: 50, left: 80 };
+    const isPC = window.innerWidth >= 769;
+
     const width = widthA + margin.left + margin.right;
     const height = heightA + margin.top + margin.bottom;
     const radius = Math.min(width, height) / 2 - Math.max(margin.left, margin.right);

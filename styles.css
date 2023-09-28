@@ -274,6 +274,13 @@ tr:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     border-radius: 5%;
+    background-color: grey;
+    color: white;
+    font-weight: normal;
+}
+.player-item.selected {
+    background-color: #e74c3c;
+    font-weight: bold;
 }
 
 #roseChart {
@@ -361,12 +368,13 @@ tr:hover {
     }
 
     #playerCheckboxContainer {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
     }
 
     .player-item {
-        width: 90px;
-        height: 40px;
+        width: 70px;
+        height: 30px;
         margin: 3px;
+        font-size: 10px;
     }
 }
