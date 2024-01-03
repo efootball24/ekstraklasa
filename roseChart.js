@@ -7,10 +7,11 @@ const heightA = 400;
 const seasonUrls2 = {
     "Sezon 1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1938115636&single=true&output=csv",
     "Sezon 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
+    "Sezon 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1938115636&single=true&output=csv",
     // Add more seasons and their URLs as needed
 };
 
-window.fetchCSVData = function(season = "Sezon 2") {  // Default to "Sezon 2" if no season is provided
+window.fetchCSVData = function(season = "Sezon 3") {  // Default to "Sezon 3" if no season is provided
     const url = seasonUrls2[season];
     if (!url) {
         console.error(`URL not found for season "${season}"`);

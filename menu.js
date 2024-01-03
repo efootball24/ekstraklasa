@@ -41,7 +41,7 @@ function fetchAndChangeSeason(season) {
     fetchData('dates', 'eventsContainer', false, true, season);
 
     // Update the season text
-    if(season != "Sezon 2")
+    if(season != "Sezon 3")
     {
         updateSeasonText("Archiwum: "+season);
     }else{
@@ -52,18 +52,24 @@ function fetchAndChangeSeason(season) {
     //STATY
     window.fetchCSVData(season);
 
-        // Change background color based on the season
+    // Change background color based on the season
     // Change background color based on the season
     switch(season) {
         case 'Sezon 1':
             document.body.style.background = 'grey';
             break;
-            case 'Sezon 2':
-                document.body.style.background = 'linear-gradient(to bottom right, #eca2ff, #1d2783)';
-                document.body.style.backgroundRepeat = 'no-repeat';
-                document.body.style.backgroundAttachment = 'fixed';
-                document.body.style.backgroundSize = '100% 100%';
-                break;
+        case 'Sezon 2':
+            document.body.style.background = 'linear-gradient(to bottom right, #eca2ff, #1d2783)';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = '100% 100%';
+            break;
+        case 'Sezon 3':
+            document.body.style.background = 'linear-gradient(to bottom right, #eff1c5, #035e7b)';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = '100% 100%';
+            break;
         // Add more cases for other seasons if needed
     }
 

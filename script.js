@@ -11,7 +11,7 @@ window.onload = function() {
     updateMarqueeWithLatestNews();
 };
 
-function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 2') {
+function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 3') {
     let url;
 
     // Check if the season exists in the seasonUrls object
@@ -408,7 +408,7 @@ function updateMarqueeWithLatestNews() {
 
     const marqueeContentElement = document.querySelector(".marquee-content");
     marqueeContentElement.innerHTML = "Loading latest news..."; 
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=588758860&single=true&output=csv";
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=588758860&single=true&output=csv";
 
     fetch(url)
     .then(response => response.text())
@@ -506,6 +506,11 @@ const seasonUrls = {
         data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=117637307&single=true&output=csv",
         stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
         dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1145917757&single=true&output=csv"
+    },
+    'Sezon 3': {
+        data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=117637307&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1938115636&single=true&output=csv",
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1145917757&single=true&output=csv"
     },
     // Add more seasons here as needed
 };
