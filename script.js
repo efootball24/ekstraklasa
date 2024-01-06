@@ -281,6 +281,8 @@ function showTable(containerToShow) {
             document.getElementById(title).style.display = "block";
         } else if (containerToShow === 'roseChartContainer' && title === 'title4') {
             document.getElementById(title).style.display = "block";
+        } else if (containerToShow === 'matchStatsContainer' && title === 'title5') {
+            document.getElementById(title).style.display = "block";
         } else {
             document.getElementById(title).style.display = "none";
         }
@@ -509,7 +511,7 @@ const seasonUrls = {
     },
     'Sezon 3': {
         data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=117637307&single=true&output=csv",
-        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1938115636&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1335223581&single=true&output=csv",
         dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1145917757&single=true&output=csv"
     },
     // Add more seasons here as needed

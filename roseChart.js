@@ -2,23 +2,26 @@ let playersData = [];
 
 const widthA = 600;
 const heightA = 400;
+var seasonSelected;
 
 // Define a mapping of seasons to their respective URLs
 const seasonUrls2 = {
     "Sezon 1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1938115636&single=true&output=csv",
     "Sezon 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
-    "Sezon 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1938115636&single=true&output=csv",
+    "Sezon 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1335223581&single=true&output=csv",
     // Add more seasons and their URLs as needed
 };
 
 window.fetchCSVData = function(season = "Sezon 3") {  // Default to "Sezon 3" if no season is provided
     const url = seasonUrls2[season];
+    seasonSelected = season;
     if (!url) {
         console.error(`URL not found for season "${season}"`);
         return;
     }
 
-    fetch(url)
+    if(season == "Sezon 1" || season == "Sezon 2" ){
+        fetch(url)
         .then(response => response.text())
         .then(data => {
             const rows = data.split("\n").slice(1);
@@ -41,6 +44,33 @@ window.fetchCSVData = function(season = "Sezon 3") {  // Default to "Sezon 3" if
         .catch(error => {
             console.error("Error fetching CSV data:", error);
         });
+    }
+    else{
+        fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            const rows = data.split("\n").slice(1);
+            playersData = rows.map(row => {
+                const columns = row.split(",");
+                return {
+                    B: columns[1],
+                    F: columns[5],
+                    H: columns[7],
+                    J: columns[9],
+                    L: columns[11],
+                    N: columns[13],
+                    P: columns[15]
+                };
+            });
+            console.log("Fetched and Parsed Data:", playersData);
+            populatePlayerSelection();
+            updateChart();  // Update the chart immediately after fetching the data
+        })
+        .catch(error => {
+            console.error("Error fetching CSV data:", error);
+        });
+    }
+    
 }
 
 
@@ -76,9 +106,13 @@ function updateChart() {
     console.log("Selected Players:", selectedPlayers);
 
     document.getElementById('roseChart').style.display = 'block';
-
-    const titles = ["Suma\npunktów w grze", "Średnia\npunktów w grze", "Bramki", "Asysty", "Punkty za pozycję", "Średnia\npunktów za pozycję"];
-    const keys = ['C', 'D', 'E', 'G', 'K', 'L'];
+    
+    var titles = ["Ustawianie\nw ataku", "Strzelanie", "Pojedynki", "Ustawianie\nw obronie", "Podania", "Drybling"];
+    var keys = ['F', 'H', 'J', 'L', 'N', 'P'];
+    if(seasonSelected == "Sezon 1" || seasonSelected == "Sezon 2" ){
+        titles = ["Suma\npunktów w grze", "Średnia\npunktów w grze", "Bramki", "Asysty", "Punkty za pozycję", "Średnia\npunktów za pozycję"];
+        keys = ['C', 'D', 'E', 'G', 'K', 'L'];
+    }
 
     const maxValues = {};
     keys.forEach(key => {

@@ -46,7 +46,7 @@
                         <button id="statystykiMainButton" onclick="toggleSubButtons('statystykiSubButtons')">Statystyki</button>
                         <div class="sub-button-container" id="statystykiSubButtons">
                             <button class="table-button sub-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
-                            <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Zestawienie</button>
+                            <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Widok w tabeli</button>
                         </div>
                     </div>
                     
@@ -54,8 +54,8 @@
                         <button id="sezonMainButton" onclick="toggleSubButtons('sezonSubButtons')">Sezon</button>
                         <div class="sub-button-container" id="sezonSubButtons">
                             <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 1')">Sezon 1</button>
-                            <button class="table-button sub-button active" onclick="fetchAndChangeSeason('Sezon 2')">Sezon 2</button>
-                            <button class="table-button sub-button active" onclick="fetchAndChangeSeason('Sezon 3')">Sezon 3</button>
+                            <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 2')">Sezon 2</button>
+                            <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 3')">Sezon 3</button>
                         </div>
                     </div>
                     
@@ -68,6 +68,7 @@
     <div class="title" id="title2" style="display: none;"><h2>Statystyki indywidualne</h2></div>
     <div class="title" id="title3" style="display: none;"><h2>Terminarz</h2></div>
     <div class="title" id="title4" style="display: none;"><h2>Zestawienie</h2></div>
+    <div class="title" id="title5" style="display: none;"><h2>Statystyki w meczach</h2></div>
 
     
 
@@ -82,12 +83,8 @@
                     <div id="roseChartContainer" style="display: none;">
                         <div id="roseChart"></div>
                         <label>Wybierz Graczy(Max 4):</label>
-                        <div id="playerCheckboxContainer"></div>
-
-                        
-                    </div>
-                    
-                    
+                        <div id="playerCheckboxContainer"></div>    
+                    </div>                      
                 </div>
             
         </div>
