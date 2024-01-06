@@ -32,11 +32,22 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false,
         return;
     }
 
+    // Display Loading message
+    const container = document.getElementById(containerId);
+    container.innerHTML = "<p>Loading...</p>";
     // Fetch data from the dynamically determined URL
     fetch(url)
         .then(response => response.text())
         .then(data => {
             const parsedData = parseCSV(data);
+
+            // Check if any row in parsedData contains #NAME?
+            let containsError = parsedData.some(row => row.includes("#NAME?"));
+            if (containsError) {
+                console.log("#NAME? error found. Refreshing data...");
+                setTimeout(() => fetchData(endpointType, containerId, isStats, isEvents, seasonName), 3000); // Retry after 3 seconds
+                return;
+            }
 
             if (isStats) {
                 statsData = parsedData;
