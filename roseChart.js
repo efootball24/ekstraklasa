@@ -145,7 +145,8 @@ function updateChart() {
 
     const colors = d3.scaleOrdinal()
         .domain(selectedPlayers)
-        .range(d3.schemeSet2);
+        .range(["#4169E1", "#DC143C", "#228B22", "#DAA520"]);
+    
 
     const gridLevels = 7;
     for (let i = 1; i <= gridLevels; i++) {
