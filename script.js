@@ -11,7 +11,7 @@ window.onload = function() {
     updateMarqueeWithLatestNews();
 };
 
-function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 3') {
+function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 4') {
     let url;
 
     // Check if the season exists in the seasonUrls object
@@ -525,6 +525,11 @@ const seasonUrls = {
         stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1335223581&single=true&output=csv",
         dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1145917757&single=true&output=csv"
     },
+    'Sezon 4': {
+        data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=117637307&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=1335223581&single=true&output=csv",
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=1145917757&single=true&output=csv"
+    }
     // Add more seasons here as needed
 };
 

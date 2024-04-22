@@ -41,7 +41,7 @@ function fetchAndChangeSeason(season) {
     fetchData('dates', 'eventsContainer', false, true, season);
 
     // Update the season text
-    if(season != "Sezon 3")
+    if(season != "Sezon 4")
     {
         updateSeasonText("Archiwum: "+season);
     }else{
@@ -66,6 +66,12 @@ function fetchAndChangeSeason(season) {
             break;
         case 'Sezon 3':
             document.body.style.background = 'linear-gradient(to bottom right, #eff1c5, #035e7b)';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = '100% 100%';
+            break;
+        case 'Sezon 4':
+            document.body.style.background = 'linear-gradient(to bottom right, #ff9e00, #9d4edd)';
             document.body.style.backgroundRepeat = 'no-repeat';
             document.body.style.backgroundAttachment = 'fixed';
             document.body.style.backgroundSize = '100% 100%';

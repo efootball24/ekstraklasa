@@ -9,6 +9,7 @@ const seasonUrls2 = {
     "Sezon 1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRE_Hb9uaodKomArVWusZ859UDDPIEfcpwCTFhK5_yhcSs4bB_tMK58qPStIvbNcNjutZp2B2vcFxEK/pub?gid=1938115636&single=true&output=csv",
     "Sezon 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
     "Sezon 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1335223581&single=true&output=csv",
+    "Sezon 4": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=1335223581&single=true&output=csv"
     // Add more seasons and their URLs as needed
 };
 
