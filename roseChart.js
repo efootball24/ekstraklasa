@@ -13,7 +13,7 @@ const seasonUrls2 = {
     // Add more seasons and their URLs as needed
 };
 
-window.fetchCSVData = function(season = "Sezon 3") {  // Default to "Sezon 3" if no season is provided
+window.fetchCSVData = function(season = "Sezon 4") {  // Default to "Sezon 3" if no season is provided
     const url = seasonUrls2[season];
     seasonSelected = season;
     if (!url) {
