@@ -421,7 +421,7 @@ function updateMarqueeWithLatestNews() {
 
     const marqueeContentElement = document.querySelector(".marquee-content");
     marqueeContentElement.innerHTML = "Loading latest news..."; 
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=588758860&single=true&output=csv";
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=588758860&single=true&output=csv";
 
     fetch(url)
     .then(response => response.text())
