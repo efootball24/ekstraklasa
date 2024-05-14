@@ -2,33 +2,24 @@
 <html lang="en">
 
 <head>
-    <!-- Character set for the document -->
     <meta charset="UTF-8">
-    <!-- Ensures compatibility with Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Makes the web page responsive on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title of the web page -->
     <title>Ekstraklasa eFootballu 3 vs 3</title>
-    
-    <!-- Custom styles for the web page -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<!-- Information bar with scrolling text -->
-<div id="info-bar">
-    <div class="marquee-container">
-        <div class="marquee-content">
-            Loading latest news...
+    <div id="info-bar">
+        <div class="marquee-container">
+            <div class="marquee-content">
+                Loading latest news...
+            </div>
         </div>
     </div>
-</div>
 
     <div id="page-container">
         <div id="content-wrap">
-
-
             <div class="header">
                 <div class="logo-container">
                     <img src="efo.png" alt="eFootball Logo" id="logo">
@@ -36,9 +27,8 @@
                         <span class="header-text">Ekstraklasa eFootballu 3 vs 3</span>
                         <span id="season-text">Sezon 4</span>
                     </div>
-                    
                 </div>
-                
+
                 <div class="button-container">
                     <button class="table-button" onclick="showTable('dataContainer')">Tabela</button>
                     <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
@@ -49,7 +39,7 @@
                             <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Widok porównawczy</button>
                         </div>
                     </div>
-                    
+
                     <div class="dropdown">
                         <button id="sezonMainButton" onclick="toggleSubButtons('sezonSubButtons')">Sezon</button>
                         <div class="sub-button-container" id="sezonSubButtons">
@@ -59,63 +49,59 @@
                             <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 4')">Sezon 4</button>
                         </div>
                     </div>
-                    
                 </div>
             </div>
-            
-    
-    <!-- Placeholder for titles -->
-    <div class="title" id="title1" style="display: block;"><h2>Tabela</h2></div>
-    <div class="title" id="title2" style="display: none;"><h2>Statystyki indywidualne</h2></div>
-    <div class="title" id="title3" style="display: none;"><h2>Terminarz</h2></div>
-    <div class="title" id="title4" style="display: none;"><h2>Zestawienie</h2></div>
-    <div class="title" id="title5" style="display: none;"><h2>Statystyki w meczach</h2></div>
 
-    
+            <div class="title" id="title1" style="display: block;">
+                <h2>Tabela</h2>
+            </div>
+            <div class="title" id="title2" style="display: none;">
+                <h2>Statystyki indywidualne</h2>
+            </div>
+            <div class="title" id="title3" style="display: none;">
+                <h2>Terminarz</h2>
+            </div>
+            <div class="title" id="title4" style="display: none;">
+                <h2>Zestawienie</h2>
+            </div>
+            <div class="title" id="title5" style="display: none;">
+                <h2>Statystyki w meczach</h2>
+            </div>
 
-    <!-- Main container for the table -->
-    <div class="limiter">
-        <div class="container-table100">
-            
-                <div class="wrap-table100">
-                    <div id="dataContainer"></div>
-                    <div id="statsContainer"></div>
-                    <div id="eventsContainer"></div>
-                    <div id="roseChartContainer" style="display: none;">
-                        <div id="roseChart"></div>
-                        <label>Wybierz Graczy(Max 4):</label>
-                        <div id="playerCheckboxContainer"></div>    
-                    </div>                      
+            <div class="limiter">
+                <div class="container-table100">
+                    <div class="wrap-table100">
+                        <div id="dataContainer"></div>
+                        <div id="statsContainer"></div>
+                        <div id="eventsContainer"></div>
+                        <div id="roseChartContainer" style="display: none;">
+                            <div id="roseChart"></div>
+                            <label>Wybierz Graczy(Max 4):</label>
+                            <div id="playerCheckboxContainer"></div>
+                        </div>
+                    </div>
                 </div>
-            
+            </div>
         </div>
     </div>
-</div>
 
-
-    <!-- External JavaScript file to handle data fetching and display -->
     <script src="script.js"></script>
     <script src="menu.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="roseChart.js"></script>
-</div>
-<footer id="footer">
-    <div class="footer-content">
-        <p>© 2023 Adam -- eFootballista.pl 
-            <a href="http://discord.efootballista.pl/" target="_blank" rel="noopener noreferrer">Discord</a> -- All rights reserved.
-        </p>
-        <p>
-            Odświeżeń: <span id="pageLoadsCounter">0</span>
-            | 
-            Kliknięcia: <span id="buttonClicksCounter">0</span>
-        </p>
-        
-    </div>
-</footer>
 
-
-</div>
-
+    <footer id="footer">
+        <div class="footer-content">
+            <p>© 2023 Adam -- eFootballista.pl
+                <a href="http://discord.efootballista.pl/" target="_blank" rel="noopener noreferrer">Discord</a> -- All rights reserved.
+            </p>
+            <p>
+                Odświeżeń: <span id="pageLoadsCounter">0</span>
+                |
+                Kliknięcia: <span id="buttonClicksCounter">0</span>
+            </p>
+        </div>
+    </footer>
 </body>
 
 </html>

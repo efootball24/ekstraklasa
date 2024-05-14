@@ -55,16 +55,20 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false,
             } else if (isEvents) {
                 filterAndDisplayEvents(parsedData, containerId);
             } else {
-                const sortedData = sortByColumn(parsedData, 2, true);
-                displayData(sortedData, containerId);
+                // Ensure the `tabela` is always sorted by 'miejsce'
+                const miejsceIndex = parsedData[0].indexOf("Miejsce");
+                if (miejsceIndex !== -1) {
+                    const sortedData = sortByColumn(parsedData, miejsceIndex, false);
+                    displayData(sortedData, containerId);
+                } else {
+                    displayData(parsedData, containerId);
+                }
             }
         })
         .catch(error => {
             console.error(`There was an error fetching the data for ${containerId} from Google Sheets:`, error);
         });
 }
-
-
 
 function parseCSV(csvString) {
     const rows = csvString.trim().split('\n');
@@ -89,7 +93,6 @@ function parseCSV(csvString) {
         return cells;
     });
 }
-
 
 function areDatesEqual(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() && 
@@ -146,7 +149,6 @@ function filterAndDisplayEvents(rows, containerId) {
     displayData(matchingEvents, containerId); // Assuming you have displayData function
 }
 
-
 function displayData(rows, containerId) {
     const container = document.getElementById(containerId);
 
@@ -154,6 +156,8 @@ function displayData(rows, containerId) {
         container.innerHTML = "No data available.";
         return;
     }
+
+    const fixedHeaders = ["Drużyna", "Zawodnik"]; // List of headers to be fixed
 
     const table = document.createElement("table");
     const thead = document.createElement("thead");
@@ -169,48 +173,60 @@ function displayData(rows, containerId) {
     headers.forEach((header, index) => {
         const th = document.createElement("th");
         th.textContent = header;
-        th.style.color = "white";
-        th.classList.add('column100', `column${index+1}`, 'hov-column-ver1', 'respon4');
-        
-        if (containerId === 'statsContainer') {
-            th.onclick = function() {
-                // Reset styles for all th elements
-                document.querySelectorAll(`#${containerId} th`).forEach(thElement => {
-                    thElement.style.color = "white";
-                    thElement.classList.remove("sorted-ascending", "sorted-descending");
-                });
+        th.classList.add('column100', `column${index + 1}`, 'hov-column-ver1', 'respon4');
 
-                if (currentSortColumn === index) {
-                    sortAscending = !sortAscending;
-                } else {
-                    currentSortColumn = index;
-                    sortAscending = true;
-                }
-                
-                statsData = sortByColumn(statsData, currentSortColumn);
-                lastSortedTh = th;
-                displayData(statsData, containerId);
-            };
-            
-            // Add sorting styles (if the column is sorted)
-            if (currentSortColumn === index) {
-                th.classList.add(sortAscending ? 'sorted-ascending' : 'sorted-descending');
-                th.innerHTML = `${header} ${sortAscending ? '<i class="fa fa-arrow-up" style="color:black;"></i>' : '<i class="fa fa-arrow-down" style="color:black;"></i>'}`;
-                th.style.color = sortAscending ? "red" : "green";
-            }
+        // Add fixed column class based on header
+        if (fixedHeaders.includes(header)) {
+            th.classList.add('fixed-column', 'fixed-column-header');
         }
+
+        // Add click event listener for sorting only for stats table
+        if (containerId === 'statsContainer') {
+            th.addEventListener('click', () => {
+                sortByColumnAndDisplay(rows, index, containerId);
+            });
+        }
+
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
 
     // Data rows
-    for(let i=1; i<rows.length; i++) {
+    const miejsceIndex = headers.indexOf("Miejsce");
+
+    for (let i = 1; i < rows.length; i++) {
         const tr = document.createElement("tr");
         tr.classList.add('row100');
+
+        // Apply different background color to every second row
+        if (i % 2 === 0) {
+            tr.classList.add('even-row'); // Add a class for even rows
+        } else {
+            tr.classList.add('odd-row'); // Add a class for odd rows
+        }
+
+        // Determine the class based on the value in the "Miejsce" column
+        if (miejsceIndex !== -1) {
+            const miejsceValue = rows[i][miejsceIndex];
+            if (miejsceValue === "1") {
+                tr.classList.add('gold-row');
+            } else if (miejsceValue === "2") {
+                tr.classList.add('silver-row');
+            } else if (miejsceValue === "3") {
+                tr.classList.add('bronze-row');
+            }
+        }
+
         rows[i].forEach((cell, index) => {
             const td = document.createElement("td");
             td.textContent = cell;
-            td.classList.add('column100', `column${index+1}`, 'respon4');
+            td.classList.add('column100', `column${index + 1}`, 'respon4');
+
+            // Add fixed column class based on header
+            if (fixedHeaders.includes(headers[index])) {
+                td.classList.add('fixed-column');
+            }
+
             tr.appendChild(td);
         });
         tbody.appendChild(tr);
@@ -225,6 +241,12 @@ function displayData(rows, containerId) {
         appendStatsButtons(container, rows, containerId);
     }
 }
+
+
+
+
+
+
 
 function appendStatsButtons(container, rows, containerId) {
     // Append expand button if 'statsContainer' and more than 8 rows
@@ -249,11 +271,9 @@ function appendStatsButtons(container, rows, containerId) {
     }
 }
 
-function sortByColumn(data, columnIndex) {
+function sortByColumn(data, columnIndex, ascending = true) {
     const headers = data[0];
     const rows = data.slice(1);
-
-    const ascending = (columnIndex === currentSortColumn) ? sortAscending : true;
 
     rows.sort((a, b) => {
         let valA = a[columnIndex];
@@ -265,12 +285,17 @@ function sortByColumn(data, columnIndex) {
             valB = Number(valB);
         }
 
-        if (valA < valB) return ascending ? -1 : 1;
-        if (valA > valB) return ascending ? 1 : -1;
+        if (valA < valB) return ascending ? 1 : -1;  // Switch the comparison for descending order
+        if (valA > valB) return ascending ? -1 : 1;
         return 0;
     });
 
     return [headers].concat(rows);
+}
+
+function sortByColumnAndDisplay(data, columnIndex, containerId) {
+    const sortedData = sortByColumn(data, columnIndex, true); // Sort descending
+    displayData(sortedData, containerId);
 }
 
 function showTable(containerToShow) {
@@ -308,7 +333,6 @@ function showTable(containerToShow) {
         }
     });
 }
-
 
 function mergeColumns(rows) {
     if (!rows || rows.length === 0) {
@@ -367,7 +391,6 @@ document.addEventListener('click', () => {
     sendDataToGoogleForm('entry.2128479794'); // Assuming 'entry.2128479794' is for clicks
 });
 
-
 // URL of the published CSV
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnqY6Lnezz9Pc7werBeEfYn5s0Yjcl_Qrl0lTuqs7ulSdCmbMxNiE7vtLLYkYl9MTSyF0rolZ-8-_G/pub?gid=1138249290&single=true&output=csv';
 
@@ -420,47 +443,45 @@ function updateMarqueeWithLatestNews() {
     console.log("Loading latest news...");
 
     const marqueeContentElement = document.querySelector(".marquee-content");
-    marqueeContentElement.innerHTML = "Loading latest news..."; 
+    marqueeContentElement.innerHTML = "Loading latest news...";
     const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=588758860&single=true&output=csv";
 
     fetch(url)
-    .then(response => response.text())
-    .then(data => {
-        const parsedData = parseCSV(data);
-        
-        // Skip the headers by slicing the array from the second element
-        const newsItems = parsedData.slice(1);
+        .then(response => response.text())
+        .then(data => {
+            const parsedData = parseCSV(data);
 
-        // Assuming you want the last 6 news items and the latest news should be displayed first
-        const recentNews = newsItems.slice(-6).reverse();
+            // Skip the headers by slicing the array from the second element
+            const newsItems = parsedData.slice(1);
 
-        let marqueeContent = "";
+            // Assuming you want the last 6 news items and the latest news should be displayed first
+            const recentNews = newsItems.slice(-6).reverse();
 
-        recentNews.forEach((news, index) => {
-            const newsText = news[0];
-            const newsLink = news[1];
-            const time = news[5];
+            let marqueeContent = "";
 
-            if (newsLink && newsLink.trim() !== "" && time && time.trim() !== "") {
-                const eventDate = parseEventDate(news.slice(2, 6));
-                const countdownElementId = `countdown-${index}`;
-                startCountdown(eventDate, newsLink, countdownElementId);
-                marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
-            } else if (newsLink && newsLink.trim() !== "") {
-                marqueeContent += `| &nbsp;&nbsp;&nbsp; <a href="${newsLink}" target="_blank">${newsText}</a> &nbsp;&nbsp;&nbsp; `;
-            } else {
-                marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
-            }
+            recentNews.forEach((news, index) => {
+                const newsText = news[0];
+                const newsLink = news[1];
+                const time = news[5];
+
+                if (newsLink && newsLink.trim() !== "" && time && time.trim() !== "") {
+                    const eventDate = parseEventDate(news.slice(2, 6));
+                    const countdownElementId = `countdown-${index}`;
+                    startCountdown(eventDate, newsLink, countdownElementId);
+                    marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
+                } else if (newsLink && newsLink.trim() !== "") {
+                    marqueeContent += `| &nbsp;&nbsp;&nbsp; <a href="${newsLink}" target="_blank">${newsText}</a> &nbsp;&nbsp;&nbsp; `;
+                } else {
+                    marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
+                }
+            });
+
+            marqueeContentElement.innerHTML = marqueeContent;
+        })
+        .catch(error => {
+            console.error(`There was an error fetching the latest news from Google Sheets:`, error);
         });
-
-        marqueeContentElement.innerHTML = marqueeContent;
-    })
-    .catch(error => {
-        console.error(`There was an error fetching the latest news from Google Sheets:`, error);
-    });
 }
-
-
 
 // Map to store intervals for each news item
 const countdownIntervals = new Map();
@@ -533,7 +554,6 @@ const seasonUrls = {
     // Add more seasons here as needed
 };
 
-
 function updateSeasonText(season) {
     document.getElementById('season-text').innerText = season;
 }
@@ -551,5 +571,3 @@ function updateSeason(seasonName) {
         console.error(`Season "${seasonName}" not found.`);
     }
 }
-
-
