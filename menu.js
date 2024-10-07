@@ -41,7 +41,7 @@ function fetchAndChangeSeason(season) {
     fetchData('dates', 'eventsContainer', false, true, season);
 
     // Update the season text
-    if(season != "Sezon 4")
+    if(season != "Sezon 5")
     {
         updateSeasonText("Archiwum: "+season);
     }else{
