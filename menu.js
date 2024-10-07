@@ -76,6 +76,12 @@ function fetchAndChangeSeason(season) {
             document.body.style.backgroundAttachment = 'fixed';
             document.body.style.backgroundSize = '100% 100%';
             break;
+        case 'Sezon 5':
+            document.body.style.background = 'linear-gradient(to bottom right,  #C7253E, #FABC3F)';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = '100% 100%';
+            break;
         // Add more cases for other seasons if needed
     }
 
