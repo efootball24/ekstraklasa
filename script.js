@@ -213,7 +213,7 @@ function displayData(rows, containerId) {
         }
 
 
-        if (kolejkaIndex !== -1){
+        if (kolejkaIndex !== -1 & containerId == "eventsContainer"){
             var kolejkaValue = rows[i][kolejkaIndex];
             var kolVal = Number(kolejkaValue.substr(8, kolejkaValue.length))
             if (kolVal % 2 === 0){
