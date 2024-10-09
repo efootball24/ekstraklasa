@@ -40,6 +40,12 @@ function fetchAndChangeSeason(season) {
     // Fetch data for events
     fetchData('dates', 'eventsContainer', false, true, season);
 
+    // Fetch data for rules
+    fetchData('rules', 'rulesContainer', true, false, "Sezon 5");
+
+    // Fetch data for rules
+    fetchData('cards', 'cardsContainer', true, false, "Sezon 5");
+
     // Update the season text
     if(season != "Sezon 5")
     {

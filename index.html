@@ -33,10 +33,12 @@
                     <button class="table-button" onclick="showTable('dataContainer')">Tabela</button>
                     <button class="table-button" onclick="showTable('eventsContainer')">Terminarz</button>
                     <div class="dropdown">
-                        <button id="statystykiMainButton" onclick="toggleSubButtons('statystykiSubButtons')">Statystyki</button>
+                        <button id="statystykiMainButton" onclick="toggleSubButtons('statystykiSubButtons')">Informacje</button>
                         <div class="sub-button-container" id="statystykiSubButtons">
-                            <button class="table-button sub-button" onclick="showTable('statsContainer')">Statystyki indywidualne</button>
-                            <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Widok porównawczy</button>
+                            <button class="table-button sub-button" onclick="showTable('roseChartContainer')">Porównanie graczy</button>
+                            <button class="table-button sub-button" onclick="showTable('statsContainer')">Tabelka graczy</button>
+                            <button class="table-button sub-button" onclick="showTable('rulesContainer')">Regulamin</button>
+                            <button class="table-button sub-button" onclick="showTable('cardsContainer')">Karty</button>
                         </div>
                     </div>
 
@@ -57,16 +59,22 @@
                 <h2>Tabela</h2>
             </div>
             <div class="title" id="title2" style="display: none;">
-                <h2>Statystyki indywidualne</h2>
+                <h2>Tabelka graczy</h2>
             </div>
             <div class="title" id="title3" style="display: none;">
                 <h2>Terminarz</h2>
             </div>
             <div class="title" id="title4" style="display: none;">
-                <h2>Zestawienie</h2>
+                <h2>Porównanie graczy</h2>
             </div>
             <div class="title" id="title5" style="display: none;">
                 <h2>Statystyki w meczach</h2>
+            </div>
+            <div class="title" id="title6" style="display: none;">
+                <h2>Regulamin</h2>
+            </div>
+            <div class="title" id="title7" style="display: none;">
+                <h2>Karty</h2>
             </div>
 
             <div class="limiter">
@@ -74,6 +82,8 @@
                     <div class="wrap-table100">
                         <div id="dataContainer"></div>
                         <div id="statsContainer"></div>
+                        <div id="rulesContainer"></div>
+                        <div id="cardsContainer"></div>
                         <div id="eventsContainer"></div>
                         <div id="roseChartContainer" style="display: none;">
                             <div id="roseChart"></div>

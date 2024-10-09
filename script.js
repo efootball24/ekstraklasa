@@ -7,6 +7,8 @@ window.onload = function() {
     fetchData('data', 'dataContainer');
     fetchData('stats', 'statsContainer', true);
     fetchData('dates', 'eventsContainer', false, true);
+    fetchData('rules', 'rulesContainer');
+    fetchData('cards', 'cardsContainer');
     showTable('dataContainer');
     updateMarqueeWithLatestNews();
 };
@@ -25,6 +27,10 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false,
             url = seasonData.stats;
         } else if (endpointType === 'dates') {
             url = seasonData.dates;
+        } else if (endpointType === 'rules') {
+            url = seasonData.rules;
+        } else if (endpointType === 'cards') {
+            url = seasonData.cards;
         }
     } else {
         // Handle the case when the selected season is not found
@@ -299,8 +305,8 @@ function sortByColumnAndDisplay(data, columnIndex, containerId) {
 }
 
 function showTable(containerToShow) {
-    const containers = ['dataContainer', 'statsContainer', 'eventsContainer', 'roseChartContainer'];
-    const titles = ['title1', 'title2', 'title3', 'title4'];
+    const containers = ['dataContainer', 'statsContainer', 'eventsContainer', 'roseChartContainer','rulesContainer','cardsContainer'];
+    const titles = ['title1', 'title2', 'title3', 'title4','title5','title6','title7'];
 
     // Handle containers
     containers.forEach(container => {
@@ -318,6 +324,10 @@ function showTable(containerToShow) {
         } else if (containerToShow === 'roseChartContainer' && title === 'title4') {
             document.getElementById(title).style.display = "block";
         } else if (containerToShow === 'matchStatsContainer' && title === 'title5') {
+            document.getElementById(title).style.display = "block";
+        } else if (containerToShow === 'rulesContainer' && title === 'title6') {
+            document.getElementById(title).style.display = "block";
+        } else if (containerToShow === 'cardsContainer' && title === 'title7') {
             document.getElementById(title).style.display = "block";
         } else {
             document.getElementById(title).style.display = "none";
@@ -455,7 +465,7 @@ function updateMarqueeWithLatestNews() {
             const newsItems = parsedData.slice(1);
 
             // Assuming you want the last 6 news items and the latest news should be displayed first
-            const recentNews = newsItems.slice(-6).reverse();
+            const recentNews = newsItems.slice(-10).reverse();
 
             let marqueeContent = "";
 
@@ -555,7 +565,9 @@ const seasonUrls = {
     'Sezon 5': {
         data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=117637307&single=true&output=csv",
         stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1335223581&single=true&output=csv",
-        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1145917757&single=true&output=csv"
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1145917757&single=true&output=csv",
+        rules:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1263205549&single=true&output=csv",
+        cards: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=409080995&single=true&output=csv"
     }
     // Add more seasons here as needed
 };
@@ -572,6 +584,8 @@ function updateSeason(seasonName) {
         fetchData('data', 'dataContainer');
         fetchData('stats', 'statsContainer', true);
         fetchData('dates', 'eventsContainer', false, true);
+        fetchData('rules', 'rulesContainer');
+        fetchData('cards', 'cardsContainer');
     } else {
         // Handle the case when the selected season is not found
         console.error(`Season "${seasonName}" not found.`);
