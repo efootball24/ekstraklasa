@@ -199,6 +199,7 @@ function displayData(rows, containerId) {
 
     // Data rows
     const miejsceIndex = headers.indexOf("Miejsce");
+    const kolejkaIndex = headers.indexOf("Kolejka");
 
     for (let i = 1; i < rows.length; i++) {
         const tr = document.createElement("tr");
@@ -209,6 +210,18 @@ function displayData(rows, containerId) {
             tr.classList.add('even-row'); // Add a class for even rows
         } else {
             tr.classList.add('odd-row'); // Add a class for odd rows
+        }
+
+
+        if (kolejkaIndex !== -1){
+            var kolejkaValue = rows[i][kolejkaIndex];
+            var kolVal = Number(kolejkaValue.substr(8, kolejkaValue.length))
+            if (kolVal % 2 === 0){
+                tr.classList.add('odd-kolejka');
+            }
+            else{
+                tr.classList.add('even-kolejka');
+            }
         }
 
         // Determine the class based on the value in the "Miejsce" column
@@ -222,6 +235,8 @@ function displayData(rows, containerId) {
                 tr.classList.add('bronze-row');
             }
         }
+
+        
 
         rows[i].forEach((cell, index) => {
             const td = document.createElement("td");

@@ -120,6 +120,14 @@ tr:nth-child(odd) {
     background-color: #ff35722d;
 }
 
+.even-kolejka {
+    background-color: #fff9a080 !important;
+}
+
+.odd-kolejka {
+    background-color: #ff357257 !important;
+}
+
 /* Define colors for specific values */
 .gold-row {
     background-color: rgb(161, 144, 47) !important;
