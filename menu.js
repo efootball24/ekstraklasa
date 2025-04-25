@@ -41,13 +41,13 @@ function fetchAndChangeSeason(season) {
     fetchData('dates', 'eventsContainer', false, true, season);
 
     // Fetch data for rules
-    fetchData('rules', 'rulesContainer', true, false, "Sezon 5");
+    fetchData('rules', 'rulesContainer', true, false, "Sezon 6");
 
     // Fetch data for rules
-    fetchData('cards', 'cardsContainer', true, false, "Sezon 5");
+    fetchData('cards', 'cardsContainer', true, false, "Sezon 6");
 
     // Update the season text
-    if(season != "Sezon 5")
+    if(season != "Sezon 6")
     {
         updateSeasonText("Archiwum: "+season);
     }else{
@@ -84,6 +84,12 @@ function fetchAndChangeSeason(season) {
             break;
         case 'Sezon 5':
             document.body.style.background = 'linear-gradient(to bottom right,  #C7253E, #FABC3F)';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = '100% 100%';
+            break;
+        case 'Sezon 6':
+            document.body.style.background = 'linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b)';
             document.body.style.backgroundRepeat = 'no-repeat';
             document.body.style.backgroundAttachment = 'fixed';
             document.body.style.backgroundSize = '100% 100%';

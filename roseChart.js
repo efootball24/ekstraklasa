@@ -8,10 +8,11 @@ const seasonUrls2 = {
     "Sezon 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgf7dDX0kmak9-vMcxSKa_560ubpjwRylvJBsoSw8BzCQ9vmowEuuv0R0XtLj4fPgEnizxWqk3pEbg/pub?gid=1938115636&single=true&output=csv",
     "Sezon 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vToQgsvV8cnFKGsEETpFOGeDSHpd-yzBT0Jg_-YqCxyjGhVRk6Zs0fuvVsGcy_YGeU46Xk3JzsXnsKk/pub?gid=1335223581&single=true&output=csv",
     "Sezon 4": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnToJOs6DL0tKymqDQed1mmKNndVBMEcPrx9ETSgn3FJTa9s_GRiJ2f4fXNK28ywCltoI3mEWv26dK/pub?gid=1335223581&single=true&output=csv",
-    "Sezon 5": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1335223581&single=true&output=csv"
+    "Sezon 5": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1335223581&single=true&output=csv",
+    "Sezon 6": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=1335223581&single=true&output=csv"
 };
 
-window.fetchCSVData = function(season = "Sezon 5") {
+window.fetchCSVData = function(season = "Sezon 6") {
     const url = seasonUrls2[season];
     seasonSelected = season;
     if (!url) {

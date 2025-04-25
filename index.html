@@ -25,7 +25,7 @@
                     <img src="efo.png" alt="eFootball Logo" id="logo">
                     <div class="text-container">
                         <span class="header-text">Ekstraklasa eFootballu 3 vs 3</span>
-                        <span id="season-text">Sezon 5</span>
+                        <span id="season-text">Sezon 6</span>
                     </div>
                 </div>
 
@@ -39,6 +39,7 @@
                             <button class="table-button sub-button" onclick="showTable('statsContainer')">Tabelka graczy</button>
                             <button class="table-button sub-button" onclick="showTable('rulesContainer')">Regulamin</button>
                             <button class="table-button sub-button" onclick="showTable('cardsContainer')">Karty</button>
+                            <!-- <button class="table-button sub-button" onclick="showTable('historiaContainer')">Historia</button> -->
                         </div>
                     </div>
 
@@ -50,6 +51,7 @@
                             <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 3')">Sezon 3</button>
                             <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 4')">Sezon 4</button>
                             <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 5')">Sezon 5</button>
+                            <button class="table-button sub-button" onclick="fetchAndChangeSeason('Sezon 6')">Sezon 6</button>
                         </div>
                     </div>
                 </div>
@@ -90,6 +92,13 @@
                             <label>Wybierz Graczy(Max 4):</label>
                             <div id="playerCheckboxContainer"></div>
                         </div>
+
+                        <!-- <div class="title" id="historiaContainer" style="display: none;">
+                            <h2>Historia</h2>
+                            <p>Tutaj pokażemy dane historyczne</p>
+                        </div> -->
+                        
+                        <div id="content" style="display: block;"></div>
                     </div>
                 </div>
             </div>
@@ -100,6 +109,12 @@
     <script src="menu.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="roseChart.js"></script>
+    <script>
+        function showHistoria() {
+            document.getElementById('title1').innerText = 'Historia';
+            document.getElementById('content').innerText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        }
+    </script>
 
     <footer id="footer">
         <div class="footer-content">

@@ -13,7 +13,7 @@ window.onload = function() {
     updateMarqueeWithLatestNews();
 };
 
-function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 5') {
+function fetchData(endpointType, containerId, isStats = false, isEvents = false, seasonName = 'Sezon 6') {
     let url;
 
     // Check if the season exists in the seasonUrls object
@@ -263,12 +263,6 @@ function displayData(rows, containerId) {
     }
 }
 
-
-
-
-
-
-
 function appendStatsButtons(container, rows, containerId) {
     // Append expand button if 'statsContainer' and more than 8 rows
     if (statsData.length > 9 && rows.length < 10) {
@@ -320,8 +314,8 @@ function sortByColumnAndDisplay(data, columnIndex, containerId) {
 }
 
 function showTable(containerToShow) {
-    const containers = ['dataContainer', 'statsContainer', 'eventsContainer', 'roseChartContainer','rulesContainer','cardsContainer'];
-    const titles = ['title1', 'title2', 'title3', 'title4','title5','title6','title7'];
+    const containers = ['dataContainer', 'statsContainer', 'eventsContainer', 'roseChartContainer', 'rulesContainer', 'cardsContainer', 'historiaContainer'];
+    const titles = ['title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'title7'];
 
     // Handle containers
     containers.forEach(container => {
@@ -469,7 +463,7 @@ function updateMarqueeWithLatestNews() {
 
     const marqueeContentElement = document.querySelector(".marquee-content");
     marqueeContentElement.innerHTML = "Loading latest news...";
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=588758860&single=true&output=csv";
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=588758860&single=true&output=csv";
 
     fetch(url)
         .then(response => response.text())
@@ -583,6 +577,13 @@ const seasonUrls = {
         dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1145917757&single=true&output=csv",
         rules:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=1263205549&single=true&output=csv",
         cards: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeypxxyN-DTlMdx4vFqKsSLi6Ao_0hBm3zUngymYyaW3P8FACjKFDNdn7QZ2ET3Te5odPohd9__gPj/pub?gid=409080995&single=true&output=csv"
+    },
+    'Sezon 6': {
+        data: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=117637307&single=true&output=csv",
+        stats: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=1335223581&single=true&output=csv",
+        dates: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=1145917757&single=true&output=csv",
+        rules: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=1263205549&single=true&output=csv",
+        cards: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=823461656&single=true&output=csv"
     }
     // Add more seasons here as needed
 };
