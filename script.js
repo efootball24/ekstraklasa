@@ -73,6 +73,19 @@ function fetchData(endpointType, containerId, isStats = false, isEvents = false,
         })
         .catch(error => {
             console.error(`There was an error fetching the data for ${containerId} from Google Sheets:`, error);
+            
+            // Show user-friendly error message
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        <p>Nie można załadować danych.</p>
+                        <button onclick="fetchData('${endpointType}', '${containerId}')" style="margin-top: 10px; padding: 5px 10px;">
+                            Spróbuj ponownie
+                        </button>
+                    </div>
+                `;
+            }
         });
 }
 
@@ -319,27 +332,33 @@ function showTable(containerToShow) {
 
     // Handle containers
     containers.forEach(container => {
-        document.getElementById(container).style.display = container === containerToShow ? "block" : "none";
+        const element = document.getElementById(container);
+        if (element) {
+            element.style.display = container === containerToShow ? "block" : "none";
+        }
     });
 
     // Handle titles
     titles.forEach((title, index) => {
-        if (containerToShow === 'dataContainer' && title === 'title1') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'statsContainer' && title === 'title2') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'eventsContainer' && title === 'title3') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'roseChartContainer' && title === 'title4') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'matchStatsContainer' && title === 'title5') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'rulesContainer' && title === 'title6') {
-            document.getElementById(title).style.display = "block";
-        } else if (containerToShow === 'cardsContainer' && title === 'title7') {
-            document.getElementById(title).style.display = "block";
-        } else {
-            document.getElementById(title).style.display = "none";
+        const element = document.getElementById(title);
+        if (element) {
+            if (containerToShow === 'dataContainer' && title === 'title1') {
+                element.style.display = "block";
+            } else if (containerToShow === 'statsContainer' && title === 'title2') {
+                element.style.display = "block";
+            } else if (containerToShow === 'eventsContainer' && title === 'title3') {
+                element.style.display = "block";
+            } else if (containerToShow === 'roseChartContainer' && title === 'title4') {
+                element.style.display = "block";
+            } else if (containerToShow === 'matchStatsContainer' && title === 'title5') {
+                element.style.display = "block";
+            } else if (containerToShow === 'rulesContainer' && title === 'title6') {
+                element.style.display = "block";
+            } else if (containerToShow === 'cardsContainer' && title === 'title7') {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
         }
     });
 
@@ -415,11 +434,24 @@ const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnqY6Lnezz9Pc7
 
 // Function to fetch and display the counters
 function fetchAndDisplayCounters() {
-    fetch(CSV_URL)
-        .then(response => response.text())
-        .then(data => {
+    // Updated working URL for the counter CSV
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnqY6Lnezz9Pc7werBeEfYn5s0Yjcl_Qrl0lTuqs7ulSdCmbMxNiE7vtLLYkYl9MTSyF0rolZ-8-_G/pub?gid=1138249290&single=true&output=csv';
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    fetch(url, { 
+        signal: controller.signal,
+        cache: 'no-cache'
+    })
+        .then(response => {
+            clearTimeout(timeoutId);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(csvData => {
             // Split the CSV by lines and then by commas to get the values
-            const lines = data.trim().split('\n');
+            const lines = csvData.trim().split('\n');
             const lastLine = lines[lines.length - 1];
             const values = lastLine.split(',');
 
@@ -432,7 +464,11 @@ function fetchAndDisplayCounters() {
             document.getElementById('buttonClicksCounter').textContent = buttonClicks;
         })
         .catch(error => {
+            clearTimeout(timeoutId);
             console.error('Error fetching the CSV data:', error);
+            // Set default values if fetch fails
+            document.getElementById('pageLoadsCounter').textContent = '0';
+            document.getElementById('buttonClicksCounter').textContent = '0';
         });
 }
 
@@ -442,64 +478,161 @@ fetchAndDisplayCounters();
 let countdownInterval;
 
 function parseEventDate(rawData) {
-    console.log("Raw Data in parseEventDate:", rawData);
+    try {
+        console.log("Raw Data in parseEventDate:", rawData);
 
-    const parsedDay = parseInt(rawData[0], 10);
-    const parsedMonth = parseInt(rawData[1], 10) - 1; // JavaScript months are 0-indexed
-    const parsedYear = parseInt(rawData[2], 10);
+        const parsedDay = parseInt(rawData[0], 10);
+        const parsedMonth = parseInt(rawData[1], 10) - 1; // JavaScript months are 0-indexed
+        const parsedYear = parseInt(rawData[2], 10);
 
-    if (!rawData[3]) {
-        console.error("Time value is missing or undefined:", rawData[3]);
+        if (!rawData[3]) {
+            console.error("Time value is missing or undefined:", rawData[3]);
+            return null;
+        }
+
+        const timeStr = rawData[3].toString().trim();
+        if (!timeStr.includes(':')) {
+            console.error("Invalid time format:", timeStr);
+            return null;
+        }
+
+        const [hour, minute] = timeStr.split(':').map(num => parseInt(num, 10));
+
+        // Validate all parsed values
+        if (isNaN(parsedDay) || isNaN(parsedMonth) || isNaN(parsedYear) || isNaN(hour) || isNaN(minute)) {
+            console.error("Invalid date/time values:", { parsedDay, parsedMonth, parsedYear, hour, minute });
+            return null;
+        }
+
+        const eventDate = new Date(parsedYear, parsedMonth, parsedDay, hour, minute);
+        
+        // Check if the date is valid
+        if (isNaN(eventDate.getTime())) {
+            console.error("Created invalid date:", eventDate);
+            return null;
+        }
+
+        return eventDate;
+    } catch (error) {
+        console.error("Error in parseEventDate:", error);
         return null;
     }
-
-    const [hour, minute] = rawData[3].split(':').map(num => parseInt(num, 10));
-
-    return new Date(parsedYear, parsedMonth, parsedDay, hour, minute);
 }
 
 function updateMarqueeWithLatestNews() {
-    console.log("Loading latest news...");
+    console.log("Loading latest news....");
 
     const marqueeContentElement = document.querySelector(".marquee-content");
+    if (!marqueeContentElement) {
+        console.error("Marquee element not found");
+        return;
+    }
+
     marqueeContentElement.innerHTML = "Loading latest news...";
+    
     const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Hq0aw2XnYUSR8xyFdrwWq3W3jwxYGzepKioCbUh3A2IXLEk_t-bYphDRJeI40KU4OUYxcHpy9hK6/pub?gid=588758860&single=true&output=csv";
 
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
+    // Add timeout and better error handling
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    fetch(url, {
+        method: 'GET',
+        signal: controller.signal,
+        cache: 'no-cache',
+        headers: {
+            'Accept': 'text/csv'
+        }
+    })
+    .then(response => {
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(data => {
+        try {
             const parsedData = parseCSV(data);
+            if (!parsedData || parsedData.length <= 1) {
+                throw new Error("No news data found");
+            }
 
-            // Skip the headers by slicing the array from the second element
             const newsItems = parsedData.slice(1);
-
-            // Assuming you want the last 6 news items and the latest news should be displayed first
             const recentNews = newsItems.slice(-10).reverse();
-
             let marqueeContent = "";
 
             recentNews.forEach((news, index) => {
-                const newsText = news[0];
-                const newsLink = news[1];
-                const time = news[5];
+                // Basic validation - ensure news is an array with at least one element
+                if (!news || !Array.isArray(news) || news.length === 0) {
+                    console.warn("Invalid news item format - empty or not array:", news);
+                    return;
+                }
 
-                if (newsLink && newsLink.trim() !== "" && time && time.trim() !== "") {
-                    const eventDate = parseEventDate(news.slice(2, 6));
-                    const countdownElementId = `countdown-${index}`;
-                    startCountdown(eventDate, newsLink, countdownElementId);
-                    marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
-                } else if (newsLink && newsLink.trim() !== "") {
-                    marqueeContent += `| &nbsp;&nbsp;&nbsp; <a href="${newsLink}" target="_blank">${newsText}</a> &nbsp;&nbsp;&nbsp; `;
-                } else {
-                    marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
+                const newsText = (news[0] || '').toString().trim();
+                const newsLink = (news[1] || '').toString().trim();
+                
+                // Skip empty news items
+                if (!newsText) {
+                    console.warn("Empty news text, skipping item:", news);
+                    return;
+                }
+
+                // Check if we have enough data for countdown (at least 6 elements with valid date/time)
+                let hasValidDateTime = false;
+                if (news.length >= 6) {
+                    const dateTime = news.slice(2, 6);
+                    const day = dateTime[0];
+                    const month = dateTime[1];
+                    const year = dateTime[2];
+                    const time = dateTime[3];
+
+                    // Check if all date/time components are present and valid
+                    if (day && month && year && time && 
+                        !isNaN(parseInt(day)) && !isNaN(parseInt(month)) && !isNaN(parseInt(year)) &&
+                        time.toString().includes(':')) {
+                        
+                        try {
+                            const eventDate = parseEventDate(dateTime);
+                            if (eventDate && !isNaN(eventDate.getTime()) && newsLink) {
+                                const countdownElementId = `countdown-${index}`;
+                                startCountdown(eventDate, newsLink, countdownElementId);
+                                marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp; ♦ &nbsp; Mecz za: <span id="${countdownElementId}"></span> &nbsp;&nbsp;&nbsp; `;
+                                hasValidDateTime = true;
+                            }
+                        } catch (dateError) {
+                            console.warn("Error parsing date for news item:", dateError, dateTime);
+                        }
+                    }
+                }
+
+                // If no valid date/time or it failed, treat as regular news
+                if (!hasValidDateTime) {
+                    if (newsLink) {
+                        marqueeContent += `| &nbsp;&nbsp;&nbsp; <a href="${newsLink}" target="_blank" rel="noopener noreferrer">${newsText}</a> &nbsp;&nbsp;&nbsp; `;
+                    } else {
+                        marqueeContent += `| &nbsp;&nbsp;&nbsp; ${newsText} &nbsp;&nbsp;&nbsp; `;
+                    }
                 }
             });
 
+            // Ensure we always have some content
+            if (!marqueeContent.trim()) {
+                marqueeContent = "| &nbsp;&nbsp;&nbsp; No news available &nbsp;&nbsp;&nbsp; ";
+            }
+
             marqueeContentElement.innerHTML = marqueeContent;
-        })
-        .catch(error => {
-            console.error(`There was an error fetching the latest news from Google Sheets:`, error);
-        });
+            console.log("News loaded successfully");
+        } catch (error) {
+            console.error("Error processing news data:", error);
+            marqueeContentElement.innerHTML = "| &nbsp;&nbsp;&nbsp; Error loading news &nbsp;&nbsp;&nbsp; ";
+        }
+    })
+    .catch(error => {
+        clearTimeout(timeoutId);
+        console.error("Error fetching news:", error);
+        marqueeContentElement.innerHTML = "| &nbsp;&nbsp;&nbsp; Unable to load news &nbsp;&nbsp;&nbsp; ";
+    });
 }
 
 // Map to store intervals for each news item

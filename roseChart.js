@@ -81,9 +81,22 @@ function updateChart() {
         ['C', 'D', 'E', 'G', 'K', 'L'] :
         ['F', 'H', 'J', 'L', 'N', 'P'];
 
+    // Filter out invalid data before processing
+    const validPlayersData = playersData.filter(player => {
+        return player.B && keys.every(key => {
+            const value = player[key];
+            return value !== undefined && value !== null && value !== '' && !isNaN(Number(value));
+        });
+    });
+
+    if (validPlayersData.length === 0) {
+        console.warn('No valid player data available for chart');
+        return;
+    }
+
     const maxValues = {};
     keys.forEach(key => {
-        maxValues[key] = d3.max(playersData, d => +d[key]);
+        maxValues[key] = d3.max(validPlayersData, d => +d[key]);
     });
     const globalMaxValue = d3.max(Object.values(maxValues));
 
@@ -117,17 +130,25 @@ function updateChart() {
         const lineGenerator = d3.lineRadial().angle(d => angleScale(d.key) + angleScale.bandwidth() / 2).radius(d => radiusScale(d.value));
         svg.append("path").datum(maxData).attr("fill", "lightgray").attr("stroke", "gray").attr("d", lineGenerator).style("fill-opacity", 0.5);
     } else {
-        const selectedData = playersData.filter(player => selectedPlayers.includes(player.B));
+        const selectedData = validPlayersData.filter(player => selectedPlayers.includes(player.B));
         selectedData.forEach(player => {
-            const playerData = keys.map(key => ({ key: key, value: +player[key] / maxValues[key] * globalMaxValue }));
+            const playerData = keys.map(key => ({ 
+                key: key, 
+                value: isNaN(+player[key]) ? 0 : (+player[key] / maxValues[key] * globalMaxValue)
+            }));
             playerData.push(playerData[0]);
-            const lineGenerator = d3.lineRadial().angle(d => angleScale(d.key) + angleScale.bandwidth() / 2).radius(d => radiusScale(d.value));
+            const lineGenerator = d3.lineRadial()
+                .angle(d => angleScale(d.key) + angleScale.bandwidth() / 2)
+                .radius(d => isNaN(d.value) ? 0 : radiusScale(d.value));
+            
             svg.append("path").datum(playerData).attr("fill", colors(player.B)).attr("stroke", colors(player.B)).attr("d", lineGenerator).style("fill-opacity", 0.2);
             playerData.forEach(dataPoint => {
-                svg.append("circle")
-                    .attr("cx", Math.cos(angleScale(dataPoint.key) + angleScale.bandwidth() / 2 - Math.PI / 2) * radiusScale(dataPoint.value))
-                    .attr("cy", Math.sin(angleScale(dataPoint.key) + angleScale.bandwidth() / 2 - Math.PI / 2) * radiusScale(dataPoint.value))
-                    .attr("r", 4).attr("fill", colors(player.B)).style("fill-opacity", 0.8);
+                if (!isNaN(dataPoint.value)) {
+                    svg.append("circle")
+                        .attr("cx", Math.cos(angleScale(dataPoint.key) + angleScale.bandwidth() / 2 - Math.PI / 2) * radiusScale(dataPoint.value))
+                        .attr("cy", Math.sin(angleScale(dataPoint.key) + angleScale.bandwidth() / 2 - Math.PI / 2) * radiusScale(dataPoint.value))
+                        .attr("r", 4).attr("fill", colors(player.B)).style("fill-opacity", 0.8);
+                }
             });
         });
     }
